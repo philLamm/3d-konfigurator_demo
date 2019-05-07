@@ -12,11 +12,21 @@ import Button from "@material-ui/core/Button";
 import ThreeJSXCanvas from "./ThreeJSXCanvas";
 
 const handleMount = () => {
-
   let mountNode = React.findDOMNode();
   let unmount = React.unmountComponentAtNode(mountNode);
   // console.log(unmount); // false
 };
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  }
+});
 
 function App() {
   return (
@@ -24,11 +34,7 @@ function App() {
       <Grid container spacing={24}>
         <Grid container className="header" xs={12}>
           <Grid item xs={4}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onclick={handleMount}
-            >
+            <Button variant="outlined" color="secondary" onClick={handleMount}>
               Load 3D-Model
             </Button>
           </Grid>
@@ -43,29 +49,10 @@ function App() {
         </Grid>
         <Grid item xs={1} />
         <Grid item xs={6}>
-          <Paper>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum
-            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-            voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-            Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-            dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-            dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing
-            // consetetur sadipscing consetetur sadipscing consetetur
-            {/* <Canvas className="canvas" /> */}
-            <ThreeJSXCanvas vertices={[[-1, 0, 0], [0, 1, 0], [1, 0, 0], [0, -1, 0], [-1, 0, 0]]} />
-           </Paper> 
+          <Canvas className="canvas" />
         </Grid>
         <Grid item xs={1} />
-        <Grid item xs={3}>
+        <Grid id="canvasGrid" item xs={3}>
           <Paper>
             Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
             sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
@@ -74,12 +61,12 @@ function App() {
             no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum
             dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-            voluptua. At vero eos et accusam
+            voluptua. At vero eos et accusam voluptua. At vero eos et accusam
+            voluptua. At vero eos et accusam eos et accusam
           </Paper>
         </Grid>
         <Grid item xs={1} />
         <Grid item xs={12}>
-          {/* <Paper className="footer">Footer.</Paper> */}
         </Grid>
       </Grid>
     </div>
