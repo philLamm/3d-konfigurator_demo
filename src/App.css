@@ -34,16 +34,12 @@ Grid {
   min-height: 200px;
 }
 
-.footer{
+.footer {
   font-size: calc(10px + 2vmin);
   color: black;
 }
 
-.ownCreateBtn {
-  padding: 40px;
-}
-
-canvas { 
+canvas {
   /* background-image: url('./assets/temple.jpg')  */
 }
 
