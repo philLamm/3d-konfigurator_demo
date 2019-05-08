@@ -1,5 +1,7 @@
 import React from "react";
 import logo from "./assets/fancy-voxel.png";
+import poppy from "./assets/poppy.png";
+import arrow from "./assets/arrow.png";
 import "./App.css";
 import Canvas from "./Canvas";
 import "./index.css";
@@ -10,6 +12,8 @@ import Grid from "@material-ui/core/Grid";
 import "typeface-roboto";
 import Button from "@material-ui/core/Button";
 import ThreeJSXCanvas from "./ThreeJSXCanvas";
+import Divider from "@material-ui/core/Divider";
+import Slider from "@material-ui/lab/Slider";
 
 const handleMount = () => {
   let mountNode = React.findDOMNode();
@@ -35,7 +39,7 @@ function App() {
         <Grid container className="header" xs={12}>
           <Grid item xs={4}>
             <Button variant="outlined" color="secondary" onClick={handleMount}>
-              Load 3D-Model
+              About this Project
             </Button>
           </Grid>
           <Grid item xs={4}>
@@ -47,26 +51,114 @@ function App() {
             </Button>
           </Grid>
         </Grid>
-        <Grid item xs={1} />
-        <Grid item xs={6}>
-          <Canvas className="canvas" />
+        {/* <Grid item xs={1} />
+        <Grid container alignItems="center" justify="center">
+          <Grid alignItems="center" item xs={4}>
+            <Button variant="outlined" color="secondary">
+              <Typography className="ownCreateBtn" color="secondary" variant="h1">
+                Create your own Character here!
+              </Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <img src={poppy} className="App-logoWolf" alt="logo" />
+          </Grid>
         </Grid>
-        <Grid item xs={1} />
-        <Grid id="canvasGrid" item xs={3}>
-          <Paper>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum
-            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-            tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-            voluptua. At vero eos et accusam voluptua. At vero eos et accusam
-            voluptua. At vero eos et accusam eos et accusam
-          </Paper>
-        </Grid>
-        <Grid item xs={1} />
-        <Grid item xs={12}>
+
+        <Grid item xs={12} /> */}
+        <Grid container alignItems="center" justify="center">
+          <Grid item xs={1} />
+          <Grid item xs={6}>
+            {/* <Canvas />
+             */}
+            <Paper>
+              <Grid item xs={12}>
+                Header
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={1} />
+          <Grid item xs={3}>
+            <Paper>
+              <Grid item xs={12}>
+                {/* <Typography
+                  className="ownCreateBtn"
+                  color="inherit"
+                  variant="body"
+                >
+                  Character Creation
+                </Typography> */}
+                <p>Character Creation</p>
+              </Grid>
+              <Grid item xs={12}>
+                <p>
+                  <Divider variant="middle" />
+                </p>
+              </Grid>
+              <Grid container className="character" xs={12}>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid container className="sword" xs={12}>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+                <Grid item xs={4}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12}>
+                <p>
+                  <Divider variant="middle" />
+                </p>
+              </Grid>
+              <Grid container className="sword" xs={12}>
+                <Grid container className="sword" xs={12}>
+                  <Grid item xs={4} />
+                  <Grid item xs={4}>
+                    <Typography>Slider:</Typography>
+                    <Slider min={0} max={4} step={1} />
+                  </Grid>
+                  <Grid item xs={4} />
+                </Grid>
+                <Grid item xs={12}>
+                  Background on/off
+                </Grid>
+                <Grid item xs={12}>
+                  ------------
+                </Grid>
+                <Grid item xs={12}>
+                  <Button variant="outlined" color="secondary">
+                    Save Character Files
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={1} />
         </Grid>
       </Grid>
     </div>

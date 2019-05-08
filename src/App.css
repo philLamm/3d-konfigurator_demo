@@ -8,11 +8,15 @@
   align-items: center;
   justify-content: center; */
   font-size: calc(10px + 2vmin);
-  color: white
+  color: black;
 }
 
 .header {
   padding: 35px;
+}
+
+.divider {
+  padding: 20px;
 }
 
 .App-logo {
@@ -21,17 +25,26 @@
   pointer-events: none;
 }
 
+.App-logoWolf {
+  height: 60vh;
+  width: 49vw;
+}
+
 Grid {
   min-height: 200px;
 }
 
 .footer{
   font-size: calc(10px + 2vmin);
-  color: black
+  color: black;
+}
+
+.ownCreateBtn {
+  padding: 40px;
 }
 
 canvas { 
-  background-image: url('./assets/temple.jpg') 
+  /* background-image: url('./assets/temple.jpg')  */
 }
 
 .App-header {

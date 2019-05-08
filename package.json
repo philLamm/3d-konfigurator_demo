@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.3",
+    "@material-ui/lab": "^3.0.0-alpha.30",
     "grommet": "^2.7.0",
     "polished": "^3.3.0",
     "react": "^16.8.6",

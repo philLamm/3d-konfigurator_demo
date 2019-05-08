@@ -32,9 +32,12 @@ class Canvas extends Component {
   }
 
   sceneSetup = () => {
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+
     this.scene = new THREE.Scene();
     //background
-    this.scene.background = new THREE.Color(0x582c34);
+    this.scene.background = new THREE.Color(0x282c34);
     this.camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -46,71 +49,119 @@ class Canvas extends Component {
     this.controls = new OrbitControls(this.camera);
     this.renderer = new THREE.WebGLRenderer();
 
-    this.renderer.setSize(1200, 800);
+
+    // this.renderer.setSize(this.mount.innerWidth, this.mount.innerHeight);
+    // this.renderer.setSize(this.mount.offsetWidth, this.mount.offsetHeight);
+    this.renderer.setSize(982 ,736)
     this.mount.appendChild(this.renderer.domElement);
     //create a group for multiple object rendering
     this.group = new THREE.Object3D(); //create an empty container
   };
 
-  onDocMouseDown(event, mesh) {
-    console.log("clicked.");
+  onDocMouseDown(event) {
+    event.preventDefault();
+    console.log(this.state.meshes)
     const windowArea = event.target.getBoundingClientRect();
     const mouse3D = new THREE.Vector3(
-      (event.clientX / this.mount.width) * 2 - 1,
-      -(event.clientY / this.mount.height) * 2 + 1,
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1,
       0.5
     );
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse3D, this.camera);
-    let intersects = raycaster.intersectObjects(mesh);
+    let intersects = raycaster.intersectObjects(this.scene.children, true);
+    // console.log(this.state.meshes);
     if (intersects.length > 0) {
-      //   const hexCode = intersects[0].object.material.color.setHex(
-      //     Math.random() * 0xffffff
-      //   );
-      const hexCode2 = intersects[0].object.material.color.setHex(
+      const hexCode = intersects[0].object.material.color.setHex(
         Math.random() * 0xffffff
       );
+      
     }
   }
 
-  createCustomSceneObjects = (geometry, material, position) => {
-    //cube 1
-    // this.geometry = new THREE.BoxGeometry(2, 2, 2);
-    // this.material = new THREE.MeshPhongMaterial({
-    //   color: 0x156289,
-    //   emissive: 0x072534,
-    //   side: THREE.DoubleSide,
-    //   flatShading: true
-    // });
+  onClickHandler(event) {
+    // calculate mouse position in normalized device coordinates
+    // (-1 to +1) for both components
+    // const mouse3D = new THREE.Vector3(
+    //   (event.clientX / this.mount.width) * 2 - 1,
+    //   -(event.clientY / this.mount.height) * 2 + 1,
+    //   0.5
+    // );
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    console.log(this.mouse.x + " --- " + this.mouse.y);
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera(this.mouse, this.camera);
 
-    // this.cube1 = new THREE.Mesh(this.geometry, this.material);
-    // this.cube1.position.set(-1, -1.5, 2);
-    // this.group.add(this.cube1);
+    // calculate objects intersecting the picking ray
+    var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+
+    for (var i = 0; i < intersects.length; i++) {
+      intersects[i].object.material.color.setHex(Math.random() * 0xffffff);
+    }
+    // this.renderer.render(this.scene, this.camera);
+  }
+
+  createCustomSceneObjects = () => {
+    //cube 1
+    this.geometry = new THREE.BoxGeometry(2, 2, 2);
+    this.material = new THREE.MeshPhongMaterial({
+      color: 0x156289,
+      emissive: 0x072534,
+      side: THREE.DoubleSide,
+      flatShading: true
+    });
+
+    this.cube1 = new THREE.Mesh(this.geometry, this.material);
+    this.cube1.position.set(-1, -1.5, 2);
+    this.group.add(this.cube1);
 
     //load monk
     const monk = new GLTFLoader();
 
-    monk.load("./monkCharacter/scene.gltf", gltf => {
+    monk.load("./character/monkCharacter/scene.gltf", gltf => {
       const root = gltf.scene;
       const { meshes } = this.state;
 
       gltf.scene.traverse(function(object) {
         if (object.isMesh) {
           //   this.MeshObjects.push(object);
+          object.name = "myMonk";
           meshes.push(object);
-          //   this.setState({
-          //       meshes: meshes;
-          //   })
         }
       });
 
       //resize monk Model
-      root.scale.set(100, 100, 100);
-      root.position.y = -90;
+      // root.scale.set(100, 100, 100);
+      // this.camera.position.z = 175;
+      // root.position.y = -90;
       //   root.position.x = -90;
       this.group.add(root);
       this.controls.update();
     });
+
+    // const farmer = new GLTFLoader();
+
+    // farmer.load("./character/farmer/scene.gltf", gltf => {
+    //   const root = gltf.scene;
+    //   const { meshes } = this.state;
+    //   gltf.scene.traverse(function(object) {
+    //     if (object.isMesh) {
+    //       //   this.MeshObjects.push(object);
+    //       meshes.push(object);
+    //       //   this.setState({
+    //       //       meshes: meshes;
+    //       //   })
+    //     }
+    //   });
+
+    //   //resize monk Model
+    //   root.scale.set(40, 40, 40);
+    //   root.position.y = -90;
+    //   root.position.x = -180;
+    //   this.group.add(root);
+    //   this.controls.update();
+    // });
 
     // const sword = new GLTFLoader();
     // sword.load("./swords/flamesword/scene.gltf", gltf => {
@@ -138,31 +189,31 @@ class Canvas extends Component {
     //   this.controls.update();
     // });
 
-    const sword = new GLTFLoader();
-    sword.load("./swords/tyranny/scene.gltf", gltf => {
-      const root = gltf.scene;
-      root.scale.set(10, 10, 10);
+    // const sword = new GLTFLoader();
+    // sword.load("./swords/tyranny/scene.gltf", gltf => {
+    //   const root = gltf.scene;
+    //   root.scale.set(10, 10, 10);
 
-      const { meshes } = this.state;
+    //   const { meshes } = this.state;
 
-      gltf.scene.traverse(function(object) {
-        if (object.isMesh) {
-          //   this.MeshObjects.push(object);
-          meshes.push(object);
-        }
-      });
+    //   gltf.scene.traverse(function(object) {
+    //     if (object.isMesh) {
+    //       //   this.MeshObjects.push(object);
+    //       meshes.push(object);
+    //     }
+    //   });
 
-      this.group.add(root);
+    //   this.group.add(root);
 
-      console.log(meshes);
+    //   console.log(meshes);
 
-      //scenter camera
-      this.camera.position.z = 175;
-      root.position.x = 65;
-      root.position.z = 12;
-      // update orbit controls
-      this.controls.update();
-    });
+    //   //scenter camera
+    //   this.camera.position.z = 175;
+    //   root.position.x = 65;
+    //   root.position.z = 12;
+    //   // update orbit controls
+    //   this.controls.update();
+    // });
 
     this.camera.rotation.y = 20; // Y first
     this.camera.rotation.x = 10; // X second
@@ -208,8 +259,8 @@ class Canvas extends Component {
     while (this.scene.children.length > 0) {
       this.scene.remove(this.scene.children[0]);
     }
-    this.geometry.dispose();
-    this.material.dispose();
+    // this.geometry.dispose();
+    // this.material.dispose();
   };
 
   sceneDestroy = () => {
@@ -230,9 +281,9 @@ class Canvas extends Component {
     return (
       <div>
         <div
-          onClick={e => this.onDocMouseDown(e, meshes)}
+          onClick={e => this.onDocMouseDown(e)}
           id="boardCanvas"
-          style={{ width: "55vw", height: "15vw" }}
+          style={{ width: "95vw", height: "15vw" }}
           ref={mount => {
             this.mount = mount;
           }}
