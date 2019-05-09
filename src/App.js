@@ -18,7 +18,8 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import ThreeJSXCanvas from "./ThreeJSXCanvas";
 import Divider from "@material-ui/core/Divider";
-import Slider from "@material-ui/lab/Slider";
+// import Slider from "@material-ui/lab/Slider";
+import Slider from "./Slider";
 
 const handleMount = () => {
   let mountNode = React.findDOMNode();
@@ -48,6 +49,9 @@ const styles = theme => ({
     border: "1px solid rgba(245, 0, 87, 0.5)",
     padding: "4px 6px",
     borderRadius: "4px"
+  },
+  redFont: {
+    color: "rgba(245, 0, 87, 1)",
   }
 });
 
@@ -87,7 +91,11 @@ function App(props) {
           {/* CONTENT GRID */}
           <Grid container spacing={24}>
             <Grid item xs={1} />
-            <Grid item xs={7}>
+            <Typography className={classes.redFont}>Zoom:</Typography>
+            <Grid item xs={1}>
+              <Slider />
+            </Grid>
+            <Grid item xs={6}>
               <Canvas />
             </Grid>
             <Grid item xs={3}>
@@ -195,10 +203,7 @@ function App(props) {
                   </div>
                 </Grid>
                 <Grid item xs={2} />
-                <Grid item xs={8}>
-                  <Typography>Slider:</Typography>
-                  <Slider min={0} max={4} step={1} />
-                </Grid>
+                <Grid item xs={8} />
                 <Grid item xs={2} />
               </Paper>
               {/* UI interface END */}
