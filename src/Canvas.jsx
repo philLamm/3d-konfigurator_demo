@@ -23,8 +23,10 @@ class Canvas extends Component {
     this.sceneSetup();
     this.createCustomSceneObjects();
     this.addLights();
-    this.createScene();
-    this.startAnimationLoop();
+    // this.createScene();
+    // this.startAnimationLoop();
+    // this.animate = this.animate.bind(this);
+    requestAnimationFrame(this.animate);
     window.addEventListener("resize", this.handleWindowResize);
   }
 
@@ -241,15 +243,21 @@ class Canvas extends Component {
 
     const holosword = new GLTFLoader();
     holosword.load("./swords/holoSword/scene.gltf", gltf => {
-      const root = gltf.scene;
+      const root = gltf.scene || gltf.scenes[0];
+      const clips = gltf.animations || [];
+
+      // this.setContent(scene, clips);
+
+      root.updateMatrixWorld();
+
+      this.scene.add(root);
+      this.content = root;
+
+      this.setClips(clips);
+
       root.scale.set(10, 10, 10);
 
       const { meshes } = this.state;
-      let mixer;
-      mixer = new THREE.AnimationMixer(root);
-      gltf.animations.forEach(clip => {
-        mixer.clipAction(clip).play();
-      });
 
       gltf.scene.traverse(function(object) {
         if (object.isMesh) {
@@ -258,17 +266,19 @@ class Canvas extends Component {
         }
       });
 
-      this.group.add(root);
+      // this.group.add(root);
 
-      console.log(meshes);
+      // this.createScene();
 
       //scenter camera
       this.camera.position.z = 175;
       root.position.x = 65;
       root.position.z = 12;
       // update orbit controls
-      mixer.update(1);
+      // mixer.update(1);
       this.controls.update();
+
+      // this.createScene();
     });
 
     // let mixer;
@@ -291,12 +301,29 @@ class Canvas extends Component {
     this.camera.rotation.z = 0;
   };
 
+  setClips(clips) {
+    if (this.mixer) {
+      this.mixer.stopAllAction();
+      this.mixer.uncacheRoot(this.mixer.getRoot());
+      this.mixer = null;
+    }
+
+    clips.forEach(clip => {
+      if (clip.validate()) clip.optimize();
+    });
+
+    this.clips = clips;
+    if (!clips.length) return;
+
+    this.mixer = new THREE.AnimationMixer(this.content);
+  }
+
   addCustomObjectGroup = (...object) => {
     this.group.add(...object);
   };
 
   createScene = () => {
-    this.scene.add(this.group);
+    // this.scene.add(this.group);
   };
 
   addLights = () => {
@@ -314,12 +341,31 @@ class Canvas extends Component {
     this.scene.add(this.lights[2]);
   };
 
-  animate = () => {
-    this.frameId = requestAnimationFrame(this.animate);
-    this.renderer.render(this.scene, this.camera);
-  };
+  animate = time => {
+    requestAnimationFrame(this.animate);
 
-  startAnimationLoop = () => !this.frameId && this.animate();
+    const dt = (time - this.prevTime) / 1000;
+
+    // var clock = new THREE.Clock();
+    // var delta = clock.getDelta();
+    this.controls.update();
+    this.mixer && this.mixer.update(dt);
+
+    if (this.clips !== undefined) {
+      this.clips.forEach(clip => {
+        console.log(clip);
+        this.mixer.clipAction(clip).play();
+      });
+    }
+
+    // console.log(dt);
+    // console.log(this.mixer);
+    this.renderer.render(this.scene, this.camera);
+
+    this.prevTime = time;
+  };
+  // !this.frameId &&
+  startAnimationLoop = () => this.animate();
 
   stopAnimationLoop = () => {
     cancelAnimationFrame(this.frameId);

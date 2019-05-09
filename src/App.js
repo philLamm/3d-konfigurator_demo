@@ -18,8 +18,7 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import ThreeJSXCanvas from "./ThreeJSXCanvas";
 import Divider from "@material-ui/core/Divider";
-// import Slider from "@material-ui/lab/Slider";
-import Slider from "./Slider";
+import ZoomSlider from "./ZoomSlider";
 
 const handleMount = () => {
   let mountNode = React.findDOMNode();
@@ -51,7 +50,10 @@ const styles = theme => ({
     borderRadius: "4px"
   },
   redFont: {
-    color: "rgba(245, 0, 87, 1)",
+    color: "rgba(245, 0, 87, 1)"
+  },
+  AnimateBtn: {
+    width: "100%"
   }
 });
 
@@ -89,11 +91,10 @@ function App(props) {
           </Grid>
           {/* HEADER END */}
           {/* CONTENT GRID */}
-          <Grid container spacing={24}>
+          <Grid alignItems="center" container spacing={24}>
             <Grid item xs={1} />
-            <Typography className={classes.redFont}>Zoom:</Typography>
             <Grid item xs={1}>
-              <Slider />
+              <ZoomSlider />
             </Grid>
             <Grid item xs={6}>
               <Canvas />
@@ -202,13 +203,22 @@ function App(props) {
                     <Divider variant="middle" />
                   </div>
                 </Grid>
-                <Grid item xs={2} />
-                <Grid item xs={8} />
-                <Grid item xs={2} />
+                <Grid container>
+                  <Grid item xs={2} />
+                  <Grid item xs={8}>
+                    <Button
+                      className={classes.AnimateBtn}
+                      variant="outlined"
+                      color="secondary"
+                    >
+                      Play Animation
+                    </Button>
+                  </Grid>
+                  <Grid item xs={2} />
+                </Grid>
               </Paper>
               {/* UI interface END */}
             </Grid>
-
             <Grid item xs={1} />
             {/* CONTEND GRID END */}
           </Grid>
