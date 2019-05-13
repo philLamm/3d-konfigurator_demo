@@ -9,6 +9,7 @@ import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 import "./App.css";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const style = {
   height: "68vh"
@@ -232,6 +233,7 @@ class Canvas extends Component {
       // update orbit controls
       this.controls.update();
       this.scene.add(root);
+      // console.log(this.scene.getObjectByName(this.props.char, true))
       this.addLights();
     });
 
@@ -278,19 +280,20 @@ class Canvas extends Component {
   };
 
   handleChangeColorMesh = color => {
+    console.log("clicked");
     if (this.scene != undefined) {
       let mesh = this.scene.children;
-
-      if (color === "red") {
-        mesh.material.color.setHex(0xff0000);
-        this.scene.add(mesh);
-      } else if (color === "white") {
-        mesh.material.color.setxHex(0xffffff);
-        this.scene.add(mesh);
-      } else {
-        mesh.material.color.setHex(0x421010);
-        this.scene.add(mesh);
-      }
+      console.log(mesh);
+      //   if (color === "red") {
+      //     mesh.material.color.setHex(0xff0000);
+      //     this.scene.add(mesh);
+      //   } else if (color === "white") {
+      //     mesh.material.color.setxHex(0xffffff);
+      //     this.scene.add(mesh);
+      //   } else {
+      //     mesh.material.color.setHex(0x421010);
+      //     this.scene.add(mesh);
+      //   }
     }
   };
   // handleChangeColorMesh = () => {
@@ -410,7 +413,7 @@ class Canvas extends Component {
                 <br />
               </Grid>
               <Grid item xs={4}>
-                <div
+                {/* <div
                   style={{
                     width: "48px",
                     height: "48px",
@@ -418,21 +421,41 @@ class Canvas extends Component {
                     borderRadius: "25px"
                   }}
                   onClick={this.handleChangeColorMesh("red")}
-                />
+                /> */}
+                <Button
+                  onClick={() => {
+                    if(this.props.char === "monkCharacter") {
+                      let monk = this.scene.getObjectByName("monk").children[0];
+                      monk.material.color.setHex(0xff0000);
+                    } 
+                  }}
+                >
+                  <img src="./icons/red.png" width="40px" height="40px" alt="my image"/>
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <div
+                {/* <div
                   style={{
                     width: "48px",
                     height: "48px",
                     backgroundColor: "green",
                     borderRadius: "25px"
                   }}
-                  oClick={this.handleChangeColorMesh("white")}
-                />
+                  onClick={this.handleChangeColorMesh("white")}
+                /> */}
+                <Button
+                  onClick={() => {
+                    if(this.props.char === "monkCharacter") {
+                      let monk = this.scene.getObjectByName("monk").children[0];
+                      monk.material.color.setHex(0x07f20b);
+                    } 
+                  }}
+                >
+                  <img src="./icons/green.png" width="48px" height="48px" alt="my image"/>
+                </Button>
               </Grid>
               <Grid item xs={4}>
-                <div
+                {/* <div
                   style={{
                     width: "48px",
                     height: "48px",
@@ -440,7 +463,17 @@ class Canvas extends Component {
                     borderRadius: "25px"
                   }}
                   onClick={this.handleChangeColorMesh("default")}
-                />
+                /> */}
+                <Button
+                  onClick={() => {
+                    if(this.props.char === "monkCharacter") {
+                      let monk = this.scene.getObjectByName("monk").children[0];
+                      monk.material.color.setHex(0xffffff);
+                    } 
+                  }}
+                >
+                  <img src="./icons/reset.png" width="48px" height="48px" alt="my image"/>
+                </Button>
               </Grid>
             </Grid>
           </div>
@@ -449,8 +482,8 @@ class Canvas extends Component {
         // trigger="mousemove"
         interactive
         animation="scale"
-        theme="transparent"
-        offset="320"
+        theme="light"
+        offset="360"
         distance="-360"
         open={this.isOpen}
       >

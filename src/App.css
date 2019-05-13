@@ -20,6 +20,10 @@
 }
 
 
+.toolTipBtn {
+  border: 3px solid white
+}
+
 .tooltip {
   width: "200px";
   height: "200px";
